@@ -2,9 +2,9 @@ package banco;
 
 import java.math.BigDecimal;
 
-public class ContaCorrente extends Conta {
+public class ContaPoupanca extends Conta {
 
-	private BigDecimal limite = new BigDecimal(1000);
+	private BigDecimal juros;
 	
 	public String getNumero() {
 		return numero;
@@ -39,6 +39,24 @@ public class ContaCorrente extends Conta {
 	}
 
 
+
+
+	
+
+	public ContaPoupanca(String nome) {
+		this(nome,"","");
+	}
+
+	public ContaPoupanca(String nome, String agencia, String numero) {
+		this(nome, agencia, numero,BigDecimal.ZERO);
+	}
+	
+	public ContaPoupanca(String nome, String agencia, String numero, BigDecimal saldo) {
+		super(nome,agencia,numero);
+		this.saldo = saldo;
+	}
+	
+	
 	public boolean saque(String valor) {
 		BigDecimal bigdecimal = new BigDecimal(valor);
 		return this.saque(bigdecimal);
@@ -46,43 +64,26 @@ public class ContaCorrente extends Conta {
 	
 	public boolean saque(BigDecimal valor) {
 		boolean sucesso = false;
-		if (this.saldo.add(limite).doubleValue() > valor.doubleValue())  {
+		if (! (this.saldo.compareTo(valor) < 0) ) {
 			this.saldo = this.saldo.subtract(valor);
 			sucesso = true;
 		}
 		return sucesso;
 
 	}
-
-
 	
-
-	public ContaCorrente(String nome) {
-		this(nome,"","");
+	public BigDecimal getJuros() {
+		return juros;
 	}
 
-	public ContaCorrente(String nome, String agencia, String numero) {
-		this(nome, agencia, numero,BigDecimal.ZERO);
+	public void setJuros(BigDecimal juros) {
+		this.juros = juros;
 	}
 	
-	public ContaCorrente(String nome, String agencia, String numero, BigDecimal saldo) {
-		super(nome, agencia, numero);
-		this.saldo = saldo;
-		
-	}
 	
 	@Override
 	public String toString() {
-		return "ContaCorrente [numero=" + numero + ", agencia=" + agencia + ", nome=" + nome + ", saldo=" + saldo + "]";
+		return "ContaPoupanca [numero=" + numero + ", agencia=" + agencia + ", nome=" + nome + ", saldo=" + saldo + "]";
 	}
-
-	public BigDecimal getLimite() {
-		return limite;
-	}
-
-	public void setLimite(BigDecimal limite) {
-		this.limite = limite;
-	}
-	
 
 }
